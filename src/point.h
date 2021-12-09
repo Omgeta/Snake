@@ -20,10 +20,10 @@ typedef struct PointQueue {
 int point_eq(Point, Point);
 PointQueue* init_queue(void);
 void free_queue(PointQueue*);
-void enqueue_point(PointQueue*, Point);
-Point dequeue_point(PointQueue*);
-int includes_point(PointQueue*, Point);
-Point get_point(PointQueue*, unsigned int);
+void queue_enqueue(PointQueue*, Point);
+Point queue_dequeue(PointQueue*);
+int queue_includes(PointQueue*, Point);
+Point queue_get(PointQueue*, unsigned int);
 unsigned int queue_size(PointQueue*);
 
 #endif

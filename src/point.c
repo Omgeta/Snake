@@ -29,7 +29,7 @@ void free_queue(PointQueue* point_queue) {
     free(point_queue);
 }
 
-void enqueue_point(PointQueue* point_queue, Point point) {
+void queue_enqueue(PointQueue* point_queue, Point point) {
     PointNode* new_node = (PointNode*)malloc(sizeof(PointNode));
     new_node->point = point;
     new_node->next = NULL;
@@ -46,18 +46,19 @@ void enqueue_point(PointQueue* point_queue, Point point) {
     point_queue->tail = new_node;
 }
 
-Point dequeue_point(PointQueue* point_queue) {
+Point queue_dequeue(PointQueue* point_queue) {
     if (point_queue->head != NULL) {
         Point point = point_queue->head->point;
-        point_queue->head = point_queue->head->next;
+        PointNode* temp_next = point_queue->head->next;
         free(point_queue->head);
+        point_queue->head = temp_next;
         return point;
     } else {
         // ADD FAIL CASE
     }
 }
 
-int includes_point(PointQueue* point_queue, Point target) {
+int queue_includes(PointQueue* point_queue, Point target) {
     if (point_queue->head == NULL) {
         return 0;
     } else {
@@ -73,7 +74,7 @@ int includes_point(PointQueue* point_queue, Point target) {
     }
 }
 
-Point get_point(PointQueue* point_queue, unsigned int i) {
+Point queue_get(PointQueue* point_queue, unsigned int i) {
     unsigned int j = 0;
     PointNode* prev = NULL;
     PointNode* curr = point_queue->head;

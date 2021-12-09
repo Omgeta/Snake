@@ -1,7 +1,9 @@
 #ifndef GRID_H
 #define GRID_H
-#include "point.h" //protected by header guard
+
+#include "point.h"
 #include "snake.h"
+#define PADDING 3
 
 typedef struct Grid2D {
     unsigned short int row_size;
@@ -17,7 +19,9 @@ static const char GRID_SNAKE_CELL = 'S';
 
 Grid* init_grid(unsigned short int, unsigned short int);
 void free_grid(Grid*);
-PointQueue* get_empty_cells(Grid*);
-Point spawn_food(Grid*);
+PointQueue* grid_empty_cells(Grid*);
+Point grid_spawn_food(Grid*);
+Snake* grid_spawn_snake(Grid*);
+int grid_contains_snake(Grid*);
 
 #endif

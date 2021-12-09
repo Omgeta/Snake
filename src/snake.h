@@ -1,9 +1,7 @@
 #ifndef SNAKE_H
 #define SNAKE_H
-#include "point.h"
 
-#define DEFAULT_SNAKE_START (Point){1, 0}
-#define DEFAULT_SNAKE_DIR UP
+#include "point.h"
 
 enum Direction {LEFT, RIGHT, UP, DOWN};
 
