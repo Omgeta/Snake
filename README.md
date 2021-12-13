@@ -7,7 +7,6 @@ Inspired by @NZPIEFACE
 
 # TODO
 
-- Display console
-- Input handler using threads
-- Turn logic
+- Read input without enter
+- Fix turn bug (head having garbage value on move() after turn())
 
