@@ -2,8 +2,8 @@
 #define POINT_H
 
 typedef struct Point2D {
-    unsigned short int x;
-    unsigned short int y;
+    unsigned short x;
+    unsigned short y;
 } Point;
 
 typedef struct PointNode PointNode;

@@ -10,13 +10,13 @@
 #define DISPLAY_FOOD_CELL '*'
 
 typedef struct DisplayWindow {
-    unsigned short int width;
-    unsigned short int height;
+    unsigned short width;
+    unsigned short height;
 } DisplayWindow;
 
-DisplayWindow* init_display(unsigned short int, unsigned short int);
+DisplayWindow* init_display(unsigned short, unsigned short);
 void free_display(DisplayWindow*);
 void display_clear_cells(DisplayWindow*);
-void display_set_cell(DisplayWindow*, unsigned short int, unsigned short int, const char);
+void display_set_cell(DisplayWindow*, unsigned short, unsigned short, const char);
 
 #endif
