@@ -1,36 +1,37 @@
+/*
+Snake
+Author: Omgeta
+Date: 9/12/2021
+*/
 #include <stdlib.h>
 #include "snake.h"
-
-PointQueue* _init_snake_body_queue(Point, enum Direction, unsigned short);
-Point _snake_new_head(PointQueue*, enum Direction);
-int _snake_same_or_opp_dir(enum Direction dir1, enum Direction dir2);
 
 Snake* init_snake(Point start_point, enum Direction direction) {
     Snake* snake = (Snake*)malloc(sizeof(Snake));
     snake->size = 2;
     snake->direction = direction;
-    snake->body_queue = _init_snake_body_queue(start_point, snake->direction, snake->size);
+    snake->body = _init_snake_body(start_point, snake->direction, snake->size);
     return snake;
 }
 
-PointQueue* _init_snake_body_queue(Point start_point, enum Direction direction, unsigned short size) {
-    PointQueue* body_queue = init_queue();
-    queue_enqueue(body_queue, start_point); // tail
+static PointQueue* _init_snake_body(Point start_point, enum Direction direction, unsigned short size) {
+    PointQueue* body = init_queue();
+    queue_enqueue(body, start_point); // tail
     for (unsigned short i = 1; i < size; i++) {
-        Point new_head = _snake_new_head(body_queue, direction);
-        queue_enqueue(body_queue, new_head);
+        Point new_head = _snake_new_head(body, direction);
+        queue_enqueue(body, new_head);
     }
-    return body_queue;
+    return body;
 }
 
 void free_snake(Snake* snake) {
-    free_queue(snake->body_queue);
+    free_queue(snake->body);
     free(snake);
 }
 
-Point _snake_new_head(PointQueue* body_queue, enum Direction direction) {
+static Point _snake_new_head(PointQueue* body, enum Direction direction) {
     // Calculate next position to move to
-    Point snake_head = body_queue->tail->point;
+    Point snake_head = body->tail->point;
     Point new_head;
     switch (direction) {
         case LEFT:
@@ -51,16 +52,16 @@ Point _snake_new_head(PointQueue* body_queue, enum Direction direction) {
 
 void snake_move(Snake* snake) {
     // Get new head
-    Point new_head = _snake_new_head(snake->body_queue, snake->direction);
+    Point new_head = _snake_new_head(snake->body, snake->direction);
 
     // Cut off tail of snake if it has not grown by eating food
-    queue_enqueue(snake->body_queue, new_head);
-    if (snake->size < queue_size(snake->body_queue)) {
-        queue_dequeue(snake->body_queue);
+    queue_enqueue(snake->body, new_head);
+    if (snake->size < queue_size(snake->body)) {
+        queue_dequeue(snake->body);
     }
 }
 
-int _snake_same_or_opp_dir(enum Direction dir1, enum Direction dir2) {
+static int _snake_same_or_opp_dir(enum Direction dir1, enum Direction dir2) {
     return (dir1 > 1) == (dir2 > 1);
 }
 
@@ -71,13 +72,13 @@ void snake_turn(Snake* snake, enum Direction dir) {
 }
 
 int snake_collides_food(Snake* snake, Point food) {
-    Point snake_head = snake->body_queue->tail->point;
+    Point snake_head = snake->body->tail->point;
     return point_eq(snake_head, food);
 }
 
 int snake_collides_self(Snake* snake) {
-    Point snake_head = snake->body_queue->tail->point;
-    PointNode* curr = snake->body_queue->head;
+    Point snake_head = snake->body->tail->point;
+    PointNode* curr = snake->body->head;
     for (unsigned short i = 1; i < snake->size; i++) { // assumes this function is called after move
         if (point_eq(snake_head, curr->point)) {
             return 1;

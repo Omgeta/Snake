@@ -1,3 +1,8 @@
+/*
+Input
+Author: Omgeta
+Date: 12/12/2021
+*/
 #include "input.h"
 
 char input_buf = 0;

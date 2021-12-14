@@ -1,3 +1,8 @@
+/*
+Display
+Author: Omgeta
+Date: 10/12/2021
+*/
 #include <stdlib.h>
 #include "display.h"
 

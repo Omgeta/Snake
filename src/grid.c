@@ -29,7 +29,7 @@ PointQueue* grid_empty_points(Grid* grid) {
     for (unsigned short x = 0; x < grid->row_size; x++) {
         for (unsigned short y = 0; y < grid->col_size; y++) {
             Point p = (Point){x, y};
-            if (!(point_eq(p, grid->food) || queue_includes(grid->snake->body_queue, p))) {
+            if (!(point_eq(p, grid->food) || queue_includes(grid->snake->body, p))) {
                 queue_enqueue(empty_points_queue, p);
             }
         }
@@ -51,19 +51,19 @@ Point grid_spawn_food(Grid* grid) {
 
 Snake* grid_spawn_snake(Grid* grid) {
     // Select random starting x, y padded
-    unsigned short x = rand() % (grid->row_size - PADDING) + (PADDING + 1);
-    unsigned short y = rand() % (grid->col_size - PADDING) + (PADDING + 1);
+    unsigned short x = rand() % (grid->row_size - 2*PADDING) + (PADDING);
+    unsigned short y = rand() % (grid->col_size - 2*PADDING) + (PADDING);
     Point start_point = (Point){x, y};
 
     // Select random dir;
-    int dir = rand() % (4);
+    int dir = rand() % 4;
 
     Snake* snake = init_snake(start_point, dir);
     return snake;
 }
 
 int grid_contains_snake(Grid* grid) {
-    Point snake_head = grid->snake->body_queue->tail->point;
+    Point snake_head = grid->snake->body->tail->point;
     return (snake_head.x >=0 && snake_head.x < grid->row_size) &&
             (snake_head.y >=0 && snake_head.y < grid->col_size);
 }

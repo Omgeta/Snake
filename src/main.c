@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <unistd.h>
 #include "snake.h"
 #include "grid.h"
 #include "display.h"
 #include "input.h"
 
-#define MAX_ROW 32
-#define MAX_COL 32
+#define MAX_ROW 16
+#define MAX_COL 16
 #define UPDATE_DELAY_S 1
 
 int update(Grid*, DisplayWindow*);
@@ -15,7 +15,7 @@ void print_grid(DisplayWindow*, Grid*);
 
 void debug(FILE* fptr, Grid* grid) {
     fprintf(fptr, "====\n");
-    PointNode* tail = grid->snake->body_queue->head;
+    PointNode* tail = grid->snake->body->head;
     while (tail != NULL) {
         fprintf(fptr, "X:%d Y:%d\n", tail->point.x, tail->point.y);
         tail = tail->next;
@@ -43,14 +43,12 @@ int main() {
     int dead = 0;
     while (!dead) {
         debug(fptr, grid);
-
         dead = update(grid, display);
         sleep(UPDATE_DELAY_S);
     }
     debug(fptr, grid);
 
     // Print score
-    // clear();
     gotoxy(0, display->height+1);
     printf("Score: %d\n", grid->snake->size - 2);
 
@@ -70,7 +68,7 @@ int update(Grid* grid, DisplayWindow* display) {
     int eaten = snake_collides_food(grid->snake, grid->food);
     if (eaten) {
         grid->snake->size++;
-        grid_spawn_food(grid);
+        grid->food = grid_spawn_food(grid);
         Point food = grid->food;
         display_set_cell(display, food.x, food.y, DISPLAY_FOOD_CELL);
     }
@@ -78,19 +76,22 @@ int update(Grid* grid, DisplayWindow* display) {
     // Turn snake based on latest input
     {
         enum Direction dir = input_read();
-        snake_turn(grid->snake, dir);
+        if (dir != -1) {
+            snake_turn(grid->snake, dir);
+        }
     }
 
     // Move snake
-    // Shift head char to new head position
-    // Remove tail char if the snake has not grown
     {
-        Point old_snake_head = grid->snake->body_queue->tail->point;
-        Point old_snake_tail = grid->snake->body_queue->head->point;
+        // Shift head char to new head position
+        Point old_snake_head = grid->snake->body->tail->point;
+        Point old_snake_tail = grid->snake->body->head->point;
         snake_move(grid->snake);
-        Point snake_head = grid->snake->body_queue->tail->point;
+        Point snake_head = grid->snake->body->tail->point;
         display_set_cell(display, snake_head.x, snake_head.y, DISPLAY_SNAKE_HEAD_CELL);
         display_set_cell(display, old_snake_head.x, old_snake_head.y, DISPLAY_SNAKE_BODY_CELL);
+        
+        // Remove tail char if the snake has not grown
         if (!eaten) {
             display_set_cell(display, old_snake_tail.x, old_snake_tail.y, DISPLAY_EMPTY_CELL);
         }
@@ -100,7 +101,7 @@ int update(Grid* grid, DisplayWindow* display) {
     int ate_itself = snake_collides_self(grid->snake);
     int out_of_bounds = !grid_contains_snake(grid);
     if (ate_itself || out_of_bounds) {
-        PointNode* curr = grid->snake->body_queue->head;
+        PointNode* curr = grid->snake->body->head;
         while (curr != NULL) {
             Point curr_p = curr->point;
             display_set_cell(display, curr_p.x, curr_p.y, DISPLAY_SNAKE_DEAD_CELL);
@@ -120,7 +121,7 @@ void print_grid(DisplayWindow* display, Grid* grid) {
     }
 
     // Print out snake body and head
-    PointNode* curr = grid->snake->body_queue->head;
+    PointNode* curr = grid->snake->body->head;
     while (curr->next != NULL) {
         Point curr_p = curr->point;
         display_set_cell(display, curr_p.x, curr_p.y, DISPLAY_SNAKE_BODY_CELL);
