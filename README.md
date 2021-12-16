@@ -7,7 +7,7 @@ Inspired by @NZPIEFACE
 
 # TODO
 
+- Reorder game logic/ drawing w/o predicting with new_head()
 - Food respawning bug
-- Grid border
 - Free space list
 

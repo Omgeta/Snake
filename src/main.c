@@ -8,7 +8,7 @@
 
 #define MAX_ROW 32
 #define MAX_COL 32
-#define UPDATE_DELAY_MS 100000
+#define UPDATE_DELAY_MS 500000
 
 int update(Grid*, OutputWindow*);
 void print_grid(OutputWindow*, Grid*);
@@ -19,7 +19,7 @@ int main() {
 
     // Init
     Grid* grid = init_grid(MAX_ROW, MAX_COL);
-    OutputWindow* output = init_output(grid->row_size, grid->col_size);
+    OutputWindow* output = init_output(grid->row_size+2, grid->col_size+2);
     print_grid(output, grid);
     init_input();
 
@@ -51,7 +51,7 @@ int update(Grid* grid, OutputWindow* output) {
         grid->snake->size++;
         grid->food = grid_spawn_food(grid);
         Point food = grid->food;
-        output_set_cell(output, food.x, food.y, FOOD_CELL);
+        output_draw_grid_cell(output, food.x, food.y, FOOD_CELL);
     }
 
     // Turn snake based on latest input
@@ -69,12 +69,12 @@ int update(Grid* grid, OutputWindow* output) {
         Point old_snake_tail = grid->snake->body->head->point;
         snake_move(grid->snake);
         Point snake_head = grid->snake->body->tail->point;
-        output_set_cell(output, snake_head.x, snake_head.y, SNAKE_HEAD_CELL);
-        output_set_cell(output, old_snake_head.x, old_snake_head.y, SNAKE_BODY_CELL);
+        output_draw_grid_cell(output, snake_head.x, snake_head.y, SNAKE_HEAD_CELL);
+        output_draw_grid_cell(output, old_snake_head.x, old_snake_head.y, SNAKE_BODY_CELL);
         
         // Remove tail char if the snake has not grown
         if (!eaten) {
-            output_set_cell(output, old_snake_tail.x, old_snake_tail.y, EMPTY_CELL);
+            output_draw_grid_cell(output, old_snake_tail.x, old_snake_tail.y, EMPTY_CELL);
         }
     }
 
@@ -86,7 +86,7 @@ int update(Grid* grid, OutputWindow* output) {
             PointNode* curr = grid->snake->body->head;
             while (curr != NULL) {
                 Point curr_p = curr->point;
-                output_set_cell(output, curr_p.x, curr_p.y, SNAKE_DEAD_CELL);
+                output_draw_grid_cell(output, curr_p.x, curr_p.y, SNAKE_DEAD_CELL);
                 curr = curr->next;
             }
 
@@ -97,21 +97,25 @@ int update(Grid* grid, OutputWindow* output) {
 
 void print_grid(OutputWindow* output, Grid* grid) {
     clear();
+
+    // Add border
+    output_draw_border(output);
+
     // Print out food
     {
         Point food = grid->food;
-        output_set_cell(output, food.x, food.y, FOOD_CELL);
+        output_draw_grid_cell(output, food.x, food.y, FOOD_CELL);
     }
 
     // Print out snake body and head
     PointNode* curr = grid->snake->body->head;
     while (curr->next != NULL) {
         Point curr_p = curr->point;
-        output_set_cell(output, curr_p.x, curr_p.y, SNAKE_BODY_CELL);
+        output_draw_grid_cell(output, curr_p.x, curr_p.y, SNAKE_BODY_CELL);
         curr = curr->next;
     }
     {
         Point head_p = curr->point;
-        output_set_cell(output, head_p.x, head_p.y, SNAKE_HEAD_CELL);
+        output_draw_grid_cell(output, head_p.x, head_p.y, SNAKE_HEAD_CELL);
     }
 }
