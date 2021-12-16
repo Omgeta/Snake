@@ -64,9 +64,9 @@ Snake* grid_spawn_snake(Grid* grid) {
 }
 
 int grid_contains_snake(Grid* grid) {
-    Point new_head = snake_new_head(grid->snake->body, grid->snake->direction);
-    return (new_head.x >=0 && new_head.x < grid->row_size) &&
-            (new_head.y >=0 && new_head.y < grid->col_size);
+    Point snake_head = grid->snake->body->tail->point;
+    return (snake_head.x >=0 && snake_head.x < grid->row_size) &&
+            (snake_head.y >=0 && snake_head.y < grid->col_size);
 }
 
 

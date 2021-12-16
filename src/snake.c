@@ -50,30 +50,19 @@ Point snake_new_head(PointQueue* body, enum Direction direction) {
     return new_head;
 }
 
-void snake_move(Snake* snake) {
-    // Get new head
-    Point new_head = snake_new_head(snake->body, snake->direction);
-
-    // Cut off tail of snake if it has not grown by eating food
-    queue_enqueue(snake->body, new_head);
-    if (snake->size < queue_size(snake->body)) {
-        queue_dequeue(snake->body);
-    }
-}
-
 static int _snake_same_or_opp_dir(enum Direction dir1, enum Direction dir2) {
     return (dir1 > 1) == (dir2 > 1);
 }
 
 void snake_turn(Snake* snake, enum Direction dir) {
-    if (!(_snake_same_or_opp_dir(snake->direction, dir))) {
+    if (!_snake_same_or_opp_dir(snake->direction, dir)) {
         snake->direction = dir;
     }
 }
 
 int snake_collides_food(Snake* snake, Point food) {
-    Point new_head = snake_new_head(snake->body, snake->direction);
-    return point_eq(new_head, food);
+    Point snake_head = snake->body->tail->point;
+    return point_eq(snake_head, food);
 }
 
 int snake_collides_self(Snake* snake) {
