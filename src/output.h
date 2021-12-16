@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #define clear() printf("\033[H\033[J")
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
@@ -14,16 +15,16 @@
 #define FOOD_CELL '*'
 
 typedef struct OutputWindow {
-    unsigned short width;
-    unsigned short height;
+    uint8_t width;
+    uint8_t height;
 } OutputWindow;
 
-OutputWindow* init_output(unsigned short, unsigned short);
+OutputWindow* init_output(uint8_t, uint8_t);
 void free_output(OutputWindow*);
 void output_clear_cells(OutputWindow*);
 void output_draw_border(OutputWindow*);
-void output_draw_grid_cell(OutputWindow*, unsigned short, unsigned short, const char);
-static int _output_is_valid(OutputWindow*, unsigned short, unsigned short);
-static void _output_set_cell(OutputWindow*, unsigned short, unsigned short, const char);
+void output_draw_grid_cell(OutputWindow*, uint8_t, uint8_t, const char);
+static int _output_is_valid(OutputWindow*, uint8_t, uint8_t);
+static void _output_set_cell(OutputWindow*, uint8_t, uint8_t, const char);
 
 #endif

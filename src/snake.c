@@ -18,7 +18,7 @@ void free_snake(Snake* snake) {
     free(snake);
 }
 
-unsigned short snake_length(Snake* snake) {
+uint8_t snake_length(Snake* snake) {
     return queue_size(snake->body);
 }
 
@@ -49,7 +49,7 @@ int snake_collides_self(Snake* snake) {
 
     // Iterates through all others body points to check for collisions with head 
     PointNode* curr = snake->body->head;
-    for (unsigned short i = 1; i < snake->size; i++) { // assumes this function is called after move
+    for (uint8_t i = 1; i < snake->size; i++) { // assumes this function is called after move
         if (point_eq(snake_head, curr->point)) {
             return 1;
         }
@@ -58,11 +58,11 @@ int snake_collides_self(Snake* snake) {
     return 0;
 }
 
-static PointQueue* _init_snake_body(Point start_point, enum Direction direction, unsigned short size) {
+static PointQueue* _init_snake_body(Point start_point, enum Direction direction, uint8_t size) {
     // Creates a body (PointQueue*) by growing new heads for the specified size and direction
     PointQueue* body = init_queue();
     queue_enqueue(body, start_point); // tail
-    for (unsigned short i = 1; i < size; i++) {
+    for (uint8_t i = 1; i < size; i++) {
         Point next_head = _snake_next_head(body, direction);
         queue_enqueue(body, next_head);
     }

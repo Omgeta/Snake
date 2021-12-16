@@ -5,7 +5,7 @@ Date: 10/12/2021
 */
 #include "output.h"
 
-OutputWindow* init_output(unsigned short width, unsigned short height) {
+OutputWindow* init_output(uint8_t width, uint8_t height) {
     OutputWindow* output = (OutputWindow*)malloc(sizeof(OutputWindow));
     output->width = width;
     output->height = height;
@@ -35,16 +35,16 @@ void output_draw_border(OutputWindow* output) {
     }
 }
 
-void output_draw_grid_cell(OutputWindow* output, unsigned short x, unsigned short y, const char c) {
+void output_draw_grid_cell(OutputWindow* output, uint8_t x, uint8_t y, const char c) {
     _output_set_cell(output, x+1, y+1, c); // pad by border size = 1
 }
 
-static int _output_is_valid(OutputWindow* output, unsigned short x, unsigned short y) {
+static int _output_is_valid(OutputWindow* output, uint8_t x, uint8_t y) {
     return (x >=0 && x < output->width) &&
             (y >=0 && y < output->height);
 }
 
-static void _output_set_cell(OutputWindow* output, unsigned short x, unsigned short y, const char c) {
+static void _output_set_cell(OutputWindow* output, uint8_t x, uint8_t y, const char c) {
     if (_output_is_valid(output, x, y)) {
         gotoxy(1+x, 1+y); // add required coordinates to 1, 1 which is the top left
         putchar(c);

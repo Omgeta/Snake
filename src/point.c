@@ -3,7 +3,6 @@ Dynamically allocated queue of 2D Points
 Author: Omgeta
 Date: 8/12/2021
 */
-#include <stdlib.h>
 #include "point.h"
 
 int point_eq(Point p1, Point p2) {

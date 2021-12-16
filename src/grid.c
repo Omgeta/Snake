@@ -3,10 +3,9 @@ Grid of 2D points
 Author: Omgeta
 Date: 8/12/2021
 */
-#include <stdlib.h>
 #include "grid.h"
 
-Grid* init_grid(unsigned short row_size, unsigned short col_size) {
+Grid* init_grid(uint8_t row_size, uint8_t col_size) {
     Grid* grid = (Grid*)malloc(sizeof(Grid));
     grid->row_size = row_size;
     grid->col_size = col_size;
@@ -26,8 +25,8 @@ void free_grid(Grid* grid) {
 PointQueue* grid_empty_points(Grid* grid) {
     PointQueue* empty_points_queue = init_queue();
 
-    for (unsigned short x = 0; x < grid->row_size; x++) {
-        for (unsigned short y = 0; y < grid->col_size; y++) {
+    for (uint8_t x = 0; x < grid->row_size; x++) {
+        for (uint8_t y = 0; y < grid->col_size; y++) {
             Point p = (Point){x, y};
             if (!(point_eq(p, grid->food) || queue_includes(grid->snake->body, p))) {
                 queue_enqueue(empty_points_queue, p);
@@ -41,7 +40,7 @@ PointQueue* grid_empty_points(Grid* grid) {
 Point grid_spawn_food(Grid* grid) {
     // Select random point from the list of free points
     PointQueue* empty_points_queue = grid_empty_points(grid);
-    unsigned short r = rand() % queue_size(empty_points_queue);
+    uint8_t r = rand() % queue_size(empty_points_queue);
     Point food_point = queue_get(empty_points_queue, r);
 
     free_queue(empty_points_queue);
@@ -51,8 +50,8 @@ Point grid_spawn_food(Grid* grid) {
 
 Snake* grid_spawn_snake(Grid* grid) {
     // Select random starting x, y padded
-    unsigned short x = rand() % (int)(grid->row_size - 0.5*grid->row_size) + (0.25*grid->row_size);
-    unsigned short y = rand() % (int)(grid->col_size - 0.5*grid->row_size) + (0.25*grid->row_size);
+    uint8_t x = rand() % (int)(grid->row_size - 0.5*grid->row_size) + (0.25*grid->row_size);
+    uint8_t y = rand() % (int)(grid->col_size - 0.5*grid->row_size) + (0.25*grid->row_size);
     Point start_point = (Point){x, y};
 
     // Select random init direction;

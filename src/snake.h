@@ -1,6 +1,8 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include <stdlib.h>
+#include <stdint.h>
 #include "point.h"
 
 enum Direction {
@@ -18,13 +20,13 @@ typedef struct Snake {
 
 Snake* init_snake(Point, enum Direction);
 void free_snake(Snake*);
-unsigned short snake_length(Snake*);
+uint8_t snake_length(Snake*);
 void snake_turn(Snake*, enum Direction);
 void snake_add_head(Snake*);
 void snake_remove_tail(Snake*);
 int snake_collides_food(Snake*, Point);
 int snake_collides_self(Snake*);
-static PointQueue* _init_snake_body(Point, enum Direction, unsigned short);
+static PointQueue* _init_snake_body(Point, enum Direction, uint8_t);
 static Point _snake_next_head(PointQueue*, enum Direction);
 static int _snake_same_or_opp_dir(enum Direction dir1, enum Direction dir2);
 

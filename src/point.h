@@ -1,9 +1,12 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <stdlib.h>
+#include <stdint.h>
+
 typedef struct Point2D {
-    unsigned short x;
-    unsigned short y;
+    uint8_t x;
+    uint8_t y;
 } Point;
 
 int point_eq(Point, Point);
