@@ -36,7 +36,7 @@ void destroy_input(pthread_t ptid) {
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 
     // Close input thread
-    pthread_join(ptid, NULL);
+    pthread_cancel(ptid);
 }
 
 int input_read() {
