@@ -32,7 +32,7 @@ int main() {
 
     // Score
     gotoxy(0, output->height+1);
-    printf("Score: %d\n", grid->snake->size - 2);
+    printf("Score: %d\n", snake_length(grid->snake) - 2);
 
     // Terminate
     free_grid(grid);
@@ -55,22 +55,21 @@ int update(Grid* grid, OutputWindow* output) {
 
     // Move snake
     {
-        // Store old points
+        // Add new head
         Point old_snake_head = grid->snake->body->tail->point;
-        Point old_snake_tail = grid->snake->body->head->point;
+        snake_add_head(grid->snake);
 
-        // Add new head when moving
-        Point new_head = snake_new_head(grid->snake->body, grid->snake->direction);
-        queue_enqueue(grid->snake->body, new_head);
-
-        // Check if snake collided with food and increase size if so
+        // Handle snake eating food
         int eaten = snake_collides_food(grid->snake, grid->food);
         if (eaten) {
+            // Respawn food and draw new cell
             grid->food = grid_spawn_food(grid);
             Point food = grid->food;
             output_draw_grid_cell(output, food.x, food.y, FOOD_CELL);
         } else {
-            queue_dequeue(grid->snake->body);
+            // Remove tail
+            Point old_snake_tail = grid->snake->body->head->point;
+            snake_remove_tail(grid->snake);
             output_draw_grid_cell(output, old_snake_tail.x, old_snake_tail.y, EMPTY_CELL);
         }
 
@@ -78,6 +77,8 @@ int update(Grid* grid, OutputWindow* output) {
         {
             int ate_itself = snake_collides_self(grid->snake);
             int out_of_bounds = !grid_contains_snake(grid);
+
+            // Draw all cells as dead, except for head (so that it does not overwrite grid cell)
             if (ate_itself || out_of_bounds) {
                 PointNode* curr = grid->snake->body->head;
                 while (curr->next != NULL) {
@@ -89,7 +90,7 @@ int update(Grid* grid, OutputWindow* output) {
             }
         }
 
-        // Draw cells of snake
+        // Draw snake cells when alive
         Point snake_head = grid->snake->body->tail->point;
         output_draw_grid_cell(output, snake_head.x, snake_head.y, SNAKE_HEAD_CELL);
         output_draw_grid_cell(output, old_snake_head.x, old_snake_head.y, SNAKE_BODY_CELL);

@@ -1,5 +1,5 @@
 /*
-Grid of Points
+Grid of 2D points
 Author: Omgeta
 Date: 8/12/2021
 */
@@ -22,7 +22,7 @@ void free_grid(Grid* grid) {
     free(grid);
 }
 
-// TODO: REALLY SLOW! keep an updated free space list in memory?
+// TODO: Change to free space bitmap!!! URGENT
 PointQueue* grid_empty_points(Grid* grid) {
     PointQueue* empty_points_queue = init_queue();
 
@@ -55,11 +55,10 @@ Snake* grid_spawn_snake(Grid* grid) {
     unsigned short y = rand() % (int)(grid->col_size - 0.5*grid->row_size) + (0.25*grid->row_size);
     Point start_point = (Point){x, y};
 
-    // Select random dir;
+    // Select random init direction;
     int dir = rand() % 4;
 
     Snake* snake = init_snake(start_point, dir);
-    
     return snake;
 }
 

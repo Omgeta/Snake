@@ -1,5 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
+
 #include <stdio.h>
 #include <pthread.h>
 #include <termios.h>

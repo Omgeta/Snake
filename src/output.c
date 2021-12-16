@@ -1,5 +1,5 @@
 /*
-Output
+Output handler
 Author: Omgeta
 Date: 10/12/2021
 */
@@ -15,20 +15,6 @@ OutputWindow* init_output(unsigned short width, unsigned short height) {
 
 void free_output(OutputWindow* output) {
     free(output);
-}
-
-static int _output_is_valid(OutputWindow* output, unsigned short x, unsigned short y) {
-    return (x >=0 && x < output->width) &&
-            (y >=0 && y < output->height);
-}
-
-static void _output_set_cell(OutputWindow* output, unsigned short x, unsigned short y, const char c) {
-    if (_output_is_valid(output, x, y)) {
-        gotoxy(1+x, 1+y);
-        putchar(c);
-        gotoxy(1, 1);
-        fflush(stdout);
-    }
 }
 
 void output_draw_border(OutputWindow* output) {
@@ -50,7 +36,21 @@ void output_draw_border(OutputWindow* output) {
 }
 
 void output_draw_grid_cell(OutputWindow* output, unsigned short x, unsigned short y, const char c) {
-    _output_set_cell(output, x+1, y+1, c);
+    _output_set_cell(output, x+1, y+1, c); // pad by border size = 1
+}
+
+static int _output_is_valid(OutputWindow* output, unsigned short x, unsigned short y) {
+    return (x >=0 && x < output->width) &&
+            (y >=0 && y < output->height);
+}
+
+static void _output_set_cell(OutputWindow* output, unsigned short x, unsigned short y, const char c) {
+    if (_output_is_valid(output, x, y)) {
+        gotoxy(1+x, 1+y); // add required coordinates to 1, 1 which is the top left
+        putchar(c);
+        gotoxy(1, 1);
+        fflush(stdout);
+    }
 }
 
 

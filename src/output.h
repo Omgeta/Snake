@@ -23,5 +23,7 @@ void free_output(OutputWindow*);
 void output_clear_cells(OutputWindow*);
 void output_draw_border(OutputWindow*);
 void output_draw_grid_cell(OutputWindow*, unsigned short, unsigned short, const char);
+static int _output_is_valid(OutputWindow*, unsigned short, unsigned short)
+static void _output_set_cell(OutputWindow*, unsigned short, unsigned short, const char)
 
 #endif
