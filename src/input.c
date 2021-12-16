@@ -5,7 +5,7 @@ Date: 12/12/2021
 */
 #include "input.h"
 
-static struct termios oldt;
+struct termios oldt;
 pthread_t ptid;
 char input_buf = 0;
 
@@ -20,7 +20,7 @@ void* thread_input(void* vargp) {
 
 void init_input() {
     // Set terminal to instantly consume input
-    static struct termios newt;
+    struct termios newt;
     tcgetattr( STDIN_FILENO, &oldt);
     newt = oldt;
     newt.c_lflag &= ~(ICANON | ECHO);          
@@ -30,8 +30,9 @@ void init_input() {
     pthread_create(&ptid, NULL, thread_input, NULL);
 }
 
+// TODO: FIX THIS
 void destroy_input(pthread_t ptid) {
-    // Return terminal to original settings
+    // Restore terminal
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
 
     // Close input thread

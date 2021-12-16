@@ -6,15 +6,15 @@
 #include "input.h"
 #include "output.h"
 
-#define MAX_ROW 16
-#define MAX_COL 16
-#define UPDATE_DELAY_S 1
+#define MAX_ROW 32
+#define MAX_COL 32
+#define UPDATE_DELAY_MS 100000
 
 int update(Grid*, OutputWindow*);
 void print_grid(OutputWindow*, Grid*);
 
 int main() {
-    // Random seed
+    // Current time as seed
     srand(time(0));
 
     // Init
@@ -27,7 +27,7 @@ int main() {
     int dead = 0;
     while (!dead) {
         dead = update(grid, output);
-        sleep(UPDATE_DELAY_S);
+        usleep(UPDATE_DELAY_MS);
     }
 
     // Print score
@@ -41,6 +41,7 @@ int main() {
 
     // Exit
     return 0;
+    
 }
 
 int update(Grid* grid, OutputWindow* output) {
@@ -78,17 +79,19 @@ int update(Grid* grid, OutputWindow* output) {
     }
 
     // End game if snake went out of bounds or ate itself
-    int ate_itself = snake_collides_self(grid->snake);
-    int out_of_bounds = !grid_contains_snake(grid);
-    if (ate_itself || out_of_bounds) {
-        PointNode* curr = grid->snake->body->head;
-        while (curr != NULL) {
-            Point curr_p = curr->point;
-            output_set_cell(output, curr_p.x, curr_p.y, SNAKE_DEAD_CELL);
-            curr = curr->next;
-        }
+    {
+        int ate_itself = snake_collides_self(grid->snake);
+        int out_of_bounds = !grid_contains_snake(grid);
+        if (ate_itself || out_of_bounds) {
+            PointNode* curr = grid->snake->body->head;
+            while (curr != NULL) {
+                Point curr_p = curr->point;
+                output_set_cell(output, curr_p.x, curr_p.y, SNAKE_DEAD_CELL);
+                curr = curr->next;
+            }
 
-        return 1; // exit code
+            return 1; // exit code
+        }
     }
 }
 

@@ -51,21 +51,22 @@ Point grid_spawn_food(Grid* grid) {
 
 Snake* grid_spawn_snake(Grid* grid) {
     // Select random starting x, y padded
-    unsigned short x = rand() % (grid->row_size - 2*PADDING) + (PADDING);
-    unsigned short y = rand() % (grid->col_size - 2*PADDING) + (PADDING);
+    unsigned short x = rand() % (int)(grid->row_size - 0.5*grid->row_size) + (0.25*grid->row_size);
+    unsigned short y = rand() % (int)(grid->col_size - 0.5*grid->row_size) + (0.25*grid->row_size);
     Point start_point = (Point){x, y};
 
     // Select random dir;
     int dir = rand() % 4;
 
     Snake* snake = init_snake(start_point, dir);
+    
     return snake;
 }
 
 int grid_contains_snake(Grid* grid) {
-    Point snake_head = grid->snake->body->tail->point;
-    return (snake_head.x >=0 && snake_head.x < grid->row_size) &&
-            (snake_head.y >=0 && snake_head.y < grid->col_size);
+    Point new_head = snake_new_head(grid->snake->body, grid->snake->direction);
+    return (new_head.x >=0 && new_head.x < grid->row_size) &&
+            (new_head.y >=0 && new_head.y < grid->col_size);
 }
 
 

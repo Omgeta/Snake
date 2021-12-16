@@ -3,7 +3,6 @@
 
 #include "point.h"
 #include "snake.h"
-#define PADDING 4
 
 typedef struct Grid2D {
     unsigned short row_size;

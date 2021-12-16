@@ -7,5 +7,7 @@ Inspired by @NZPIEFACE
 
 # TODO
 
-- Read input without enter
+- Food respawning bug
+- Grid border
+- Free space list
 
