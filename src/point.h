@@ -22,7 +22,7 @@ typedef struct PointQueue {
 PointQueue* init_queue(void);
 void free_queue(PointQueue*);
 void queue_enqueue(PointQueue*, Point);
-Point queue_dequeue(PointQueue*);
+void queue_dequeue(PointQueue*);
 int queue_includes(PointQueue*, Point);
 Point queue_get(PointQueue*, unsigned int);
 unsigned int queue_size(PointQueue*);

@@ -31,7 +31,7 @@ void snake_turn(Snake* snake, enum Direction dir) {
 
 void snake_add_head(Snake* snake) {
     // Enqueue new head onto body using the current direction
-    Point next_head = _snake_next_head(snake, snake->direction);
+    Point next_head = _snake_next_head(snake->body, snake->direction);
     queue_enqueue(snake->body, next_head);
 }
 
@@ -63,7 +63,7 @@ static PointQueue* _init_snake_body(Point start_point, enum Direction direction,
     PointQueue* body = init_queue();
     queue_enqueue(body, start_point); // tail
     for (unsigned short i = 1; i < size; i++) {
-        Point next_head = snake_next_head(body, direction);
+        Point next_head = _snake_next_head(body, direction);
         queue_enqueue(body, next_head);
     }
     return body;
