@@ -7,5 +7,4 @@ Inspired by @NZPIEFACE
 
 # TODO
 
-- Free space list (bitmap)
 - Menu and Exit screen

@@ -21,30 +21,43 @@ void free_grid(Grid* grid) {
     free(grid);
 }
 
-// TODO: Change to free space bitmap!!! URGENT
-PointQueue* grid_empty_points(Grid* grid) {
-    PointQueue* empty_points_queue = init_queue();
-
+Point grid_get_empty_point(Grid* grid) {
+    // 2D array of 0s holding used points
+    int** used_points = (int**)calloc(grid->row_size, sizeof(int*));
     for (uint8_t x = 0; x < grid->row_size; x++) {
-        for (uint8_t y = 0; y < grid->col_size; y++) {
-            Point p = (Point){x, y};
-            if (!(point_eq(p, grid->food) || queue_includes(grid->snake->body, p))) {
-                queue_enqueue(empty_points_queue, p);
+        used_points[x] = (int*)calloc(grid->col_size, sizeof(int));
+    }
+
+    // Set all snake points to 1
+    uint8_t counter = grid->row_size * grid->col_size;
+    PointNode* curr = grid->snake->body->head;
+    while (curr != NULL) {
+        used_points[curr->point.x][curr->point.y] = 1;
+        counter--;
+        curr = curr->next;
+    }
+
+    // Generate random number
+    uint8_t r = rand() % counter;
+
+    // Find rth element and return coords
+    uint8_t i = 0;
+    for (uint8_t y = 0; y < grid->col_size; y++) {
+        for (uint8_t x = 0; x < grid->row_size; x++) {
+            if (i == r) {
+                return (Point){x, y};
+            }
+
+            if (!used_points[x][y]) {
+                i++; // only increment current index when after point which is free
             }
         }
     }
-
-    return empty_points_queue;
 }
 
 Point grid_spawn_food(Grid* grid) {
-    // Select random point from the list of free points
-    PointQueue* empty_points_queue = grid_empty_points(grid);
-    uint8_t r = rand() % queue_size(empty_points_queue);
-    Point food_point = queue_get(empty_points_queue, r);
-
-    free_queue(empty_points_queue);
-
+    // Select random empty point to spawn food
+    Point food_point = grid_get_empty_point(grid);
     return food_point;
 }
 
