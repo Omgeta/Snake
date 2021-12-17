@@ -14,3 +14,9 @@ To build and run the program, run the bash script:
 ./run.sh
 ```
 
+# Future Changes TODO
+
+- Force minimum console size
+- Allow adjustable grid size with raising error
+
+
