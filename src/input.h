@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 void init_input();
-void destroy_input();
+void terminate_input();
 int input_read();
 
 #endif

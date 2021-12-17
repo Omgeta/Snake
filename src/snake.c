@@ -3,6 +3,7 @@ Snake represented by a PointQueue with a changeable direction
 Author: Omgeta
 Date: 9/12/2021
 */
+#include <stdio.h>
 #include <stdlib.h>
 #include "snake.h"
 
@@ -49,7 +50,8 @@ int snake_collides_self(Snake* snake) {
 
     // Iterates through all others body points to check for collisions with head 
     PointNode* curr = snake->body->head;
-    for (uint8_t i = 1; i < snake->size; i++) { // assumes this function is called after move
+    uint8_t size = snake_length(snake);
+    for (uint8_t i = 1; i < size; i++) { // assumes this function is called after move
         if (point_eq(snake_head, curr->point)) {
             return 1;
         }

@@ -8,9 +8,11 @@
 
 #define MAX_ROW 32
 #define MAX_COL 32
-#define UPDATE_DELAY_MS 100000
+#define MENU_DELAY_MS 1000000
+#define UPDATE_DELAY_MS 1000000
 
 int update(Grid*, OutputWindow*);
+void print_menu();
 void print_grid(OutputWindow*, Grid*);
 
 int main() {
@@ -20,8 +22,14 @@ int main() {
     // Init
     Grid* grid = init_grid(MAX_ROW, MAX_COL);
     OutputWindow* output = init_output(grid->row_size+2, grid->col_size+2);
-    print_grid(output, grid);
     init_input();
+
+    // Menu
+    print_menu();
+    usleep(MENU_DELAY_MS);
+
+    // Render grid
+    print_grid(output, grid);
 
     // Update Loop
     int dead = 0;
@@ -37,7 +45,7 @@ int main() {
     // Terminate
     free_grid(grid);
     free_output(output);
-    destroy_input();
+    terminate_input();
 
     // Exit
     return 0;
@@ -95,6 +103,18 @@ int update(Grid* grid, OutputWindow* output) {
         output_draw_grid_cell(output, snake_head.x, snake_head.y, SNAKE_HEAD_CELL);
         output_draw_grid_cell(output, old_snake_head.x, old_snake_head.y, SNAKE_BODY_CELL);
     }
+}
+
+void print_menu() {
+    clear();
+    printf("=========================================================\n");
+    printf("=     _______..__   __.      ___       __  ___  _______ =\n");
+    printf("=    /       ||  \\ |  |     /   \\     |  |/  / |   ____|=\n");
+    printf("=   |   (----`|   \\|  |    /  ^  \\    |  '  /  |  |__   =\n");
+    printf("=    \\   \\    |  . `  |   /  /_\\  \\   |    <   |   __|  =\n");
+    printf("=.----)   |   |  |\\   |  /  _____  \\  |  .  \\  |  |____ =\n");
+    printf("=|_______/    |__| \\__| /__/     \\__\\ |__|\\__\\ |_______|=\n");
+    printf("=========================================================\n");                 
 }
 
 void print_grid(OutputWindow* output, Grid* grid) {

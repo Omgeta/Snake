@@ -20,7 +20,7 @@ static const char GRID_SNAKE_CELL = 'S';
 
 Grid* init_grid(uint8_t, uint8_t);
 void free_grid(Grid*);
-PointQueue* grid_empty_cells(Grid*);
+Point grid_get_empty_point(Grid*);
 Point grid_spawn_food(Grid*);
 Snake* grid_spawn_snake(Grid*);
 int grid_contains_snake(Grid*);

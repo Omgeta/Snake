@@ -62,41 +62,6 @@ void queue_dequeue(PointQueue* point_queue) {
     }
 }
 
-// TODO: REMOVE AFTER ADDING FREE SPACE LIST
-int queue_includes(PointQueue* point_queue, Point target) {
-    if (point_queue->head == NULL) {
-        return 0;
-    } else {
-        int found = 0;
-        PointNode* curr = point_queue->head;
-        while (!found && curr != NULL) {
-            if (point_eq(curr->point, target)) {
-                found = 1;
-            }
-            curr = curr->next;
-        }
-        return found;
-    }
-}
-
-// TODO: REMOVE AFTER ADDING FREE SPACE LIST
-Point queue_get(PointQueue* point_queue, unsigned int i) {
-    unsigned int j = 0;
-    PointNode* prev = NULL;
-    PointNode* curr = point_queue->head;
-    while (curr != NULL  && j < i) {
-        j++;
-        prev = curr;
-        curr = curr->next;
-    }
-    
-    if (j == i && (prev != NULL || curr != NULL)) {
-        return curr->point;
-    } else {
-        // ADD FAIL CASE
-    }
-}
-
 unsigned int queue_size(PointQueue* point_queue) {
     unsigned int i = 0;
     PointNode* curr = point_queue->head;

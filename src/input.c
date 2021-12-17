@@ -30,7 +30,7 @@ void init_input() {
     pthread_create(&ptid, NULL, _thread_input, NULL);
 }
 
-void destroy_input(pthread_t ptid) {
+void terminate_input() {
     // Restore terminal
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 
