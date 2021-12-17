@@ -2,9 +2,15 @@
 
 Snake in C
 
-Inspired by @NZPIEFACE
+Inspired by [@NZPIEFACE](https://github.com/NZPIEFACE/snake)
 
 
-# TODO
+# Usage
 
-- Menu and Exit screen
+This program is targeted to POSIX-compliant systems (tested on WSL Ubuntu).
+
+To build and run the program, run the bash script:
+```sh
+./run.sh
+```
+
