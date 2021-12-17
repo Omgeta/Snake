@@ -3,6 +3,10 @@ Input handler
 Author: Omgeta
 Date: 12/12/2021
 */
+#include <stdio.h>
+#include <pthread.h>
+#include <termios.h>
+#include <unistd.h>
 #include "input.h"
 
 struct termios oldt;

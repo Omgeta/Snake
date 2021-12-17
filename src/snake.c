@@ -3,7 +3,6 @@ Snake represented by a PointQueue with a changeable direction
 Author: Omgeta
 Date: 9/12/2021
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include "snake.h"
 

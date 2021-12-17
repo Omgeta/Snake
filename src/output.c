@@ -3,6 +3,7 @@ Output handler
 Author: Omgeta
 Date: 10/12/2021
 */
+#include <stdlib.h>
 #include "output.h"
 
 OutputWindow* init_output(uint8_t width, uint8_t height) {
@@ -19,18 +20,18 @@ void free_output(OutputWindow* output) {
 
 void output_draw_border(OutputWindow* output) {
     // Sides
-    for (unsigned int y = 0; y < output->height; y++) {
+    for (uint8_t y = 0; y < output->height; y++) {
         _output_set_cell(output, 0, y, BORDER_CELL);
         _output_set_cell(output, output->width-1, y, BORDER_CELL);
     }
 
     // Top
-    for (unsigned int x = 1; x < output->width-1; x++) {
+    for (uint8_t x = 1; x < output->width-1; x++) {
         _output_set_cell(output, x, 0, BORDER_CELL);
     }
 
     // Bottom
-    for (unsigned int x = 1; x < output->width-1; x++) {
+    for (uint8_t x = 1; x < output->width-1; x++) {
         _output_set_cell(output, x, output->height-1, BORDER_CELL);
     }
 }

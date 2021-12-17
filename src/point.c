@@ -3,6 +3,7 @@ Dynamically allocated queue of 2D Points
 Author: Omgeta
 Date: 8/12/2021
 */
+#include <stdlib.h>
 #include "point.h"
 
 int point_eq(Point p1, Point p2) {
@@ -62,8 +63,8 @@ void queue_dequeue(PointQueue* point_queue) {
     }
 }
 
-unsigned int queue_size(PointQueue* point_queue) {
-    unsigned int i = 0;
+uint8_t queue_size(PointQueue* point_queue) {
+    uint8_t i = 0;
     PointNode* curr = point_queue->head;
     while (curr != NULL) {
         i++;

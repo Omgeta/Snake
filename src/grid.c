@@ -3,6 +3,7 @@ Grid of 2D points
 Author: Omgeta
 Date: 8/12/2021
 */
+#include <stdlib.h>
 #include "grid.h"
 
 Grid* init_grid(uint8_t row_size, uint8_t col_size) {

@@ -1,7 +1,6 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <stdlib.h>
 #include <stdint.h>
 
 typedef struct Point2D {
@@ -26,6 +25,6 @@ PointQueue* init_queue(void);
 void free_queue(PointQueue*);
 void queue_enqueue(PointQueue*, Point);
 void queue_dequeue(PointQueue*);
-unsigned int queue_size(PointQueue*);
+uint8_t queue_size(PointQueue*);
 
 #endif

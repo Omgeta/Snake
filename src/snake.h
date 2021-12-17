@@ -1,7 +1,6 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include <stdlib.h>
 #include <stdint.h>
 #include "point.h"
 
@@ -14,7 +13,6 @@ enum Direction {
 
 typedef struct Snake {
     PointQueue* body;
-    unsigned int size;
     enum Direction direction;
 } Snake;
 

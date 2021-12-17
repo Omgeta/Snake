@@ -1,7 +1,6 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include <stdlib.h>
 #include <stdint.h>
 #include "point.h"
 #include "snake.h"
